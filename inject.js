@@ -19,14 +19,12 @@
 
 	// create input html tag functionality
 	var input = document.createElement('input'); // create html tag for input field
+	input.setAttribute('id', 'help-ext-input');
 	input.addEventListener('keyup', filterFunction);
-	
 
 	// create list of items
 	var ul = document.createElement('ul');
-	var ulid = document.createAttribute('id');
-	ulid.value = 'myUL';
-	ul.setAttributeNode(ulid);
+	ul.setAttribute('id','help-ext-ul');
 	
 	//document.body.appendChild(ul);
 	div.appendChild(input);
@@ -37,11 +35,14 @@
 	init();
 
 	function filterFunction() {
-			var filter, ul, li, a, i;
+			var filter, ul, li, a, i, input;
 			
+			input = document.getElementById('help-ext-input');
+
 			filter = input.value.toUpperCase();
-			ul = document.createElement('ul');
+			ul = document.getElementById('help-ext-ul');
 			li = ul.getElementsByTagName("li");
+			console.log(li);
 			
 			for (i = 0; i < li.length; i++) {
 					a = li[i].getElementsByTagName("a")[0];
@@ -59,9 +60,10 @@
 	function init() {
 
 		for (var i = 0; i < optionsDict.length; i++) {
-			ul.innerHTML += "<li><a href='#'><span style='color:red'>"
+			ul.innerHTML += "<li><a href='#'><span style='color:red'; display='none'>"
 								 + optionsDict[i].label
 								 + "</span> - " + optionsDict[i].description +"</a></li>";
+
 		}
 	}
 
