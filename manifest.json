@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "Injecting stuff",
+	"content_scripts": [
+		{
+			"matches": ["https://www.amazon.com/*"],
+			"js": ["inject.js"],
+			"run_at": "document_end"
+		}
+	],
   "background": {
     "scripts": [
       "background.js"
