@@ -16,13 +16,11 @@
 	div.style.top = 0;
 	div.style.right = 0;
 	div.style.zIndex = 1000;
-	div.setAttribute('id', 'poopie');
 
 	// create input html tag functionality
 	var input = document.createElement('input'); // create html tag for input field
-	var keyupAtt = document.createAttribute('onkeyup'); // create attribute for keystrokes
-	keyupAtt.value = "filterFunction"; // set value for each keystroke
-	input.setAttributeNode(keyupAtt); // add attribute to html tag
+	input.addEventListener('keyup', filterFunction);
+	
 
 	// create list of items
 	var ul = document.createElement('ul');
@@ -38,10 +36,7 @@
 
 	init();
 
-
-
 	function filterFunction() {
-			console.log("a");
 			var filter, ul, li, a, i;
 			
 			filter = input.value.toUpperCase();
@@ -50,11 +45,12 @@
 			
 			for (i = 0; i < li.length; i++) {
 					a = li[i].getElementsByTagName("a")[0];
+					
+					// if any part of the inner body matches the query
 					if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
 							li[i].style.display = "";
 					} else {
 							li[i].style.display = "none";
-
 					}
 			}
 	}
