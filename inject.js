@@ -8,18 +8,30 @@
 
 	// create outer container
 	var div = document.createElement('div');
-	div.style.width = "300px";
-//	div.style.height = "100px";
+	div.style.width = "25%";
 	div.style.background = "white";
-//	div.style.color = "white";
 	div.style.position = 'fixed';
 	div.style.top = 0;
 	div.style.right = 0;
 	div.style.zIndex = 1000;
 
+	function addStyleString(str) {
+		var node = document.createElement('style');
+		node.innerHTML = str;
+		document.body.appendChild(node);
+	}
+
+	var styleNode = document.createElement('style');
+	addStyleString('input[type=text] {width: 40%; transition: ease-in-out, width .35s ease-in-out;}');
+	addStyleString('input[type=text]:focus {width: 85%;}');
+	
+
 	// create input html tag functionality
 	var input = document.createElement('input'); // create html tag for input field
 	input.setAttribute('id', 'help-ext-input');
+	input.setAttribute('placeholder', 'Help');
+	input.setAttribute('type', 'text');
+	input.style.focus = "100%";
 	input.addEventListener('keyup', filterFunction);
 
 	// create list of items
