@@ -39,7 +39,7 @@
 			
 			input = document.getElementById('help-ext-input');
 
-			filter = input.value.toUpperCase();
+			inputString = input.value.toUpperCase();
 			ul = document.getElementById('help-ext-ul');
 			li = ul.getElementsByTagName("li");
 			console.log(li);
@@ -48,19 +48,24 @@
 					a = li[i].getElementsByTagName("a")[0];
 					
 					// if any part of the inner body matches the query
-					if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					if (a.innerHTML.toUpperCase().indexOf(inputString) > -1) {
 							li[i].style.display = "";
 					} else {
 							li[i].style.display = "none";
 					}
 			}
+
+			console.log(inputString.length);
+			ul.style.display = (inputString.length === 0) ? "none" : "";
+
+
 	}
 
 
 	function init() {
 
 		for (var i = 0; i < optionsDict.length; i++) {
-			ul.innerHTML += "<li><a href='#'><span style='color:red'; display='none'>"
+			ul.innerHTML += "<li style='display:none'><a href='#'><span style='color:red'>"
 								 + optionsDict[i].label
 								 + "</span> - " + optionsDict[i].description +"</a></li>";
 
