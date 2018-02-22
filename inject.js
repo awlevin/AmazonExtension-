@@ -6,6 +6,40 @@
 		{"label" : "dont poop", "description" : "oh yess"}
 	]
 
+	// create outer container
+	var div = document.createElement('div');
+	div.style.width = "300px";
+//	div.style.height = "100px";
+	div.style.background = "white";
+//	div.style.color = "white";
+	div.style.position = 'fixed';
+	div.style.top = 0;
+	div.style.right = 0;
+	div.style.zIndex = 1000;
+	div.setAttribute('id', 'poopie');
+
+	// create input html tag functionality
+	var input = document.createElement('input'); // create html tag for input field
+	var keyupAtt = document.createAttribute('onkeyup'); // create attribute for keystrokes
+	keyupAtt.value = "filterFunction"; // set value for each keystroke
+	input.setAttributeNode(keyupAtt); // add attribute to html tag
+
+	// create list of items
+	var ul = document.createElement('ul');
+	var ulid = document.createAttribute('id');
+	ulid.value = 'myUL';
+	ul.setAttributeNode(ulid);
+	
+	//document.body.appendChild(ul);
+	div.appendChild(input);
+	div.appendChild(ul);
+
+	document.body.appendChild(div);
+
+	init();
+
+
+
 	function filterFunction() {
 			console.log("a");
 			var filter, ul, li, a, i;
@@ -24,30 +58,6 @@
 					}
 			}
 	}
-
-	// create input html tag functionality
-	var input = document.createElement('input'); // create html tag for input field
-	var keyupAtt = document.createAttribute('onkeyup'); // create attribute for keystrokes
-	keyupAtt.value = "filterFunction"; // set value for each keystroke
-	input.setAttributeNode(keyupAtt); // add attribute to html tag
-	
-	// set style elements of input tag
-	input.style.position = 'fixed';
-	input.style.top = 0;
-	input.style.right = 0;
-
-	document.body.appendChild(input);
-
-	var ul = document.createElement('ul');
-	var ulid = document.createAttribute('id');
-	ulid.value = 'myUL';
-	ul.setAttributeNode(ulid);
-	
-	document.body.appendChild(ul);
-	
-	init();
-
-
 
 
 	function init() {
