@@ -1,9 +1,9 @@
 (function() {
 
 	var optionsDict = [
-		{"label" : "file complaint", "description" : "help" },
-		{"label" : "poop pants", "description" : "oh no"},
-		{"label" : "dont poop", "description" : "oh yess"}
+		{"label" : "file complaint", "description" : "help", "link" : "#" },
+		{"label" : "poop pants", "description" : "oh no", "link" : "#"},
+		{"label" : "dont poop", "description" : "oh yess", "link" : "#"}
 	]
 
 	// create outer container
@@ -15,12 +15,14 @@
 	div.style.right = 0;
 	div.style.zIndex = 1000;
 
+	// Make it easy to add CSS rules to the page
 	function addStyleString(str) {
 		var node = document.createElement('style');
 		node.innerHTML = str;
 		document.body.appendChild(node);
 	}
 
+	// Make search bar expand when clicked
 	var styleNode = document.createElement('style');
 	addStyleString('input[type=text] {width: 40%; transition: ease-in-out, width .35s ease-in-out;}');
 	addStyleString('input[type=text]:focus {width: 85%;}');
@@ -34,14 +36,13 @@
 	input.style.focus = "100%";
 	input.addEventListener('keyup', filterFunction);
 
-	// create list of items
+	// Create list to hold all of the options
 	var ul = document.createElement('ul');
 	ul.setAttribute('id','help-ext-ul');
 	
-	//document.body.appendChild(ul);
+	// Insert elements to the div container, and inject the div on the page.
 	div.appendChild(input);
 	div.appendChild(ul);
-
 	document.body.appendChild(div);
 
 	init();
@@ -77,10 +78,10 @@
 	function init() {
 
 		for (var i = 0; i < optionsDict.length; i++) {
-			ul.innerHTML += "<li style='display:none'><a href='#'><span style='color:red'>"
+			ul.innerHTML += "<li style='display:none'><a href=" + optionsDict[i].link
+								 + "><span style='color:red'>"
 								 + optionsDict[i].label
 								 + "</span> - " + optionsDict[i].description +"</a></li>";
-
 		}
 	}
 
