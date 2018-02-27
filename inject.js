@@ -2,17 +2,16 @@
 
 	class HelpOption {
 		
-		constructor(label, description, link) {
+		constructor(label, link) {
 			this.label = label;
-			this.description = description;
+			this.link = link;
 			
 			this.elem = $("<li><a></a></li>");
 			this.elem
 				.children()
 				.first()
 				.attr("href", link)
-				.append( $("<span></span>").text(label + " - "))
-				.append( $("<span></span>").text(description))
+				.text(label)
 		}
 
 		show() {
@@ -25,29 +24,37 @@
 
 		setActive( isActive ) {
 			if (isActive) 
-				this.elem.addClass( "active" )
+				this.elem.children().first().addClass("active");
 			else 
-				this.elem.removeClass( "active" )
+				this.elem.children().first().removeClass("active");
 		}
 	}
 
 	var options = [
-		new HelpOption("file complaint", "help", "#"),
-		new HelpOption("poop pants", "oh no", "#"),
-		new HelpOption("dont poop", "oh yess", "#")
+		new HelpOption("File Complaint", "https://itstillworks.com/12520615/how-to-complain-to-amazon-about-a-seller"),
+		new HelpOption("My Addresses", "https://www.amazon.com/a/addresses?ref_=ya_d_c_addr"),
+		new HelpOption("1-Click settings", "https://www.amazon.com/cpe/manageoneclick?ref_=ya_d_l_change_1_click"),
+		new HelpOption("Prime Pantry", "https://www.amazon.com/Prime-Pantry/b?ie=UTF8&node=7301146011"),
+		new HelpOption("Prime Video", "https://www.amazon.com/Prime-Video/b?node=2676882011"),
+		new HelpOption("Store Directory", "https://www.amazon.com/Prime-Video/b?node=2676882011"),
+		new HelpOption("Alexa Skills",  "https://www.amazon.com/b?node=13727921011"),
+		new HelpOption("Kindle", "https://www.amazon.com/Kindle-eBooks/b?ie=UTF8&node=154606011")
 	]
-
 
 	// create outer container
 	var div = $("<div class='amzn-ext-list'></div>")
 
-	// create input html tag functionality
-	var input = $("<input class='help-ext-input' placeholder='help' type='text'/>")
-		.keyup(filterFunction)
-		.keydown(arrowKeyFunction)
-
 	// Create list to hold all of the options
 	var ul = $("<ul class='help-ext-ul'</ul>")
+
+	// create input html tag functionality
+	var input = $("<input class='amzn-ext-search' placeholder='Help' type='text'/>")
+		.keyup(filterFunction)
+		.keydown(arrowKeyFunction)
+		//.focusout( () => { ul.removeClass("visible")  })
+		.focusin( () => { if (input.val().trim().length > 0) ul.addClass("visible") })
+
+
 
 	// Insert elements to the div container, and inject the div on the page.
 	div.append(input)
@@ -60,19 +67,27 @@
 
 	$(document.body).append(div)
 
+	input.keypress(function(e) {
+		if(e.which == 13) {
+			window.location.href = options[idx].link
+		}
+	});
+
 	function filterFunction() {			
 			var inputString = input.val().toUpperCase();
 
 			for (let option of options) {
-				if (option.label.toUpperCase().indexOf(inputString.toUpperCase()) > -1)
+				if (option.label.toUpperCase().indexOf(inputString.toUpperCase()) > -1) {
 					option.show()
-				else
+				}
+				else {
 					option.hide()
+				}
 			}
 
 			if (inputString.length === 0) 
 				ul.removeClass("visible")
-			else
+			else 
 				ul.addClass("visible")
 	}
 
