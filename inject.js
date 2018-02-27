@@ -73,15 +73,18 @@
 		}
 	});
 
+	let optsShown = []
 	function filterFunction() {			
 			var inputString = input.val().toUpperCase();
 
 			for (let option of options) {
 				if (option.label.toUpperCase().indexOf(inputString.toUpperCase()) > -1) {
 					option.show()
+					if (!optsShown.includes(option)) optsShown.push(option);
 				}
 				else {
 					option.hide()
+					if (optsShown.includes(option)) optsShown.pop(option);
 				}
 			}
 
@@ -105,14 +108,14 @@
 				break;
 			case 40:
 			case 39:
-				idx = (idx === options.length) ? idx :  idx + 1; // move down if right or down arrow key
+				idx = (idx === optsShown.length) ? idx :  idx + 1; // move down if right or down arrow key
 				break;
 			default:
 				return;
 		}
 
-		for (let i = 0; i < options.length; i++) {
-			options[i].setActive( i === idx );
+		for (let i = 0; i < optsShown.length; i++) {
+			optsShown[i].setActive( i === idx );
 		}
 	}
 })();
