@@ -31,7 +31,7 @@
 	}
 
 	var options = [
-		new HelpOption("File Complaint", "https://itstillworks.com/12520615/how-to-complain-to-amazon-about-a-seller"),
+		new HelpOption("File Complaint", "https://www.amazon.com/gp/help/customer/display.html?nodeId=200783750"),
 		new HelpOption("My Addresses", "https://www.amazon.com/a/addresses?ref_=ya_d_c_addr"),
 		new HelpOption("1-Click settings", "https://www.amazon.com/cpe/manageoneclick?ref_=ya_d_l_change_1_click"),
 		new HelpOption("Prime Pantry", "https://www.amazon.com/Prime-Pantry/b?ie=UTF8&node=7301146011"),
