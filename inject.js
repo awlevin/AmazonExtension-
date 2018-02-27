@@ -32,13 +32,15 @@
 
 	var options = [
 		new HelpOption("File Complaint", "https://www.amazon.com/gp/help/customer/display.html?nodeId=200783750"),
+		new HelpOption("Return Center", "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.amazon.com%2Fgp%2Forc%2Freturns%2Fhomepage.html%2Fref%3Dorc_surl_ret_hp%3Ffg%3D1&h=ATMZwdSWx4USHEDPJUjVxExBcUmzMvFJskfNW1g6Vk9LXlQyUJywT5XYJQDsQFQwTqbqnynLRHRhV2YjFCE4t_H9DT6FLbgqy-k2cvpLCggFkPVzStB9kRFD"),
 		new HelpOption("My Addresses", "https://www.amazon.com/a/addresses?ref_=ya_d_c_addr"),
 		new HelpOption("1-Click settings", "https://www.amazon.com/cpe/manageoneclick?ref_=ya_d_l_change_1_click"),
 		new HelpOption("Prime Pantry", "https://www.amazon.com/Prime-Pantry/b?ie=UTF8&node=7301146011"),
 		new HelpOption("Prime Video", "https://www.amazon.com/Prime-Video/b?node=2676882011"),
 		new HelpOption("Store Directory", "https://www.amazon.com/Prime-Video/b?node=2676882011"),
 		new HelpOption("Alexa Skills",  "https://www.amazon.com/b?node=13727921011"),
-		new HelpOption("Kindle", "https://www.amazon.com/Kindle-eBooks/b?ie=UTF8&node=154606011")
+		new HelpOption("Kindle", "https://www.amazon.com/Kindle-eBooks/b?ie=UTF8&node=154606011"),
+		new HelpOption("More Help?", "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.amazon.com%2Fgp%2Fhelp%2Fcustomer%2Fdisplay.html%2Fref%3Dfooter_gw_m_b_he%3Fie%3DUTF8%26nodeId%3D508510&h=ATMZwdSWx4USHEDPJUjVxExBcUmzMvFJskfNW1g6Vk9LXlQyUJywT5XYJQDsQFQwTqbqnynLRHRhV2YjFCE4t_H9DT6FLbgqy-k2cvpLCggFkPVzStB9kRFD")
 	]
 
 	// create outer container
@@ -48,12 +50,11 @@
 	var ul = $("<ul class='help-ext-ul'</ul>")
 
 	// create input html tag functionality
-	var input = $("<input class='amzn-ext-search' placeholder='Help' type='text'/>")
+	var input = $("<input class='amzn-ext-search' placeholder='Need Help?' type='text'/>")
 		.keyup(filterFunction)
 		.keydown(arrowKeyFunction)
 		//.focusout( () => { ul.removeClass("visible")  })
 		.focusin( () => { if (input.val().trim().length > 0) ul.addClass("visible") })
-
 
 
 	// Insert elements to the div container, and inject the div on the page.
@@ -68,23 +69,27 @@
 	$(document.body).append(div)
 
 	input.keypress(function(e) {
-		if(e.which == 13) {
+		if (e.which == 13) {
 			window.location.href = options[idx].link
 		}
 	});
 
+	let idx = -1;
 	let optsShown = []
-	function filterFunction() {			
+	var oldString;
+	function filterFunction(e) {			
 			var inputString = input.val().toUpperCase();
 
+			// if ( !(oldString === inputString)) idx = -1;
+
 			for (let option of options) {
-				if (option.label.toUpperCase().indexOf(inputString.toUpperCase()) > -1) {
-					option.show()
+				if (option.label.toUpperCase().trim().indexOf(inputString.toUpperCase().trim()) > -1) {
 					if (!optsShown.includes(option)) optsShown.push(option);
+					option.show()
 				}
 				else {
 					option.hide()
-					if (optsShown.includes(option)) optsShown.pop(option);
+					optsShown.pop(option);
 				}
 			}
 
@@ -92,9 +97,11 @@
 				ul.removeClass("visible")
 			else 
 				ul.addClass("visible")
+
+			// oldString = inputString;
+			console.log("opts length: " + optsShown.length)
 	}
 
-	let idx = -1;
 	function arrowKeyFunction(e) {
 		e = e || window.event;
 		
@@ -111,11 +118,11 @@
 				idx = (idx === optsShown.length) ? idx :  idx + 1; // move down if right or down arrow key
 				break;
 			default:
-				return;
 		}
 
 		for (let i = 0; i < optsShown.length; i++) {
 			optsShown[i].setActive( i === idx );
 		}
+			console.log("idx: " + idx)
 	}
 })();

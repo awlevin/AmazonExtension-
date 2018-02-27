@@ -3,9 +3,9 @@
 ## How to run
 
 1. Navigate your Chrome browser to chrome://extensions. 
-2. Click "Load unpacked extension..." on the top left of the screen.
-3. Select this repository.
-4. Enable "Developer mode" by clicking the checkbox in the upper righthand corner.
+2. Enable "Developer mode" by clicking the checkbox in the upper righthand corner.
+3. Click "Load unpacked extension..." on the top left of the screen.
+4. Select this repository.
 5. Make sure to check the "Enabled" checkbox next to "AmazonExtension!"
 
 You should now have button for the extension in the navigation bar of your chrome browser!
