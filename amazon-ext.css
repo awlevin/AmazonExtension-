@@ -1,0 +1,40 @@
+.amzn-ext-search {
+	width: 40%;
+	transition: ease-in-out, width .35s ease-in-out;
+}
+
+.amzn-ext-search:focus {
+	width: 85%;
+}
+	
+
+.amzn-ext-list {
+	background-color: #f1f1f1;
+	width: 25%;
+	background: white;
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+}
+
+.amzn-ext-list a {
+	padding: 12px 16px;
+	display: block;
+}
+
+.amzn-ext-list a:focus {
+	background-color: #ddd;
+}
+
+.amzn-ext-list li {
+	display: none;
+}
+
+.visible {
+	display: block !important;
+}
+
+.amzn-ext-list ul {
+	display: none;
+}

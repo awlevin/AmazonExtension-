@@ -2,128 +2,85 @@
 
 	class HelpOption {
 		
-		constructor(label, description) {
+		constructor(label, description, link) {
 			this.label = label;
 			this.description = description;
 			
+			this.elem = $("<li><a></a></li>");
 			this.elem
-
+				.children()
+				.first()
+				.attr("href", link)
+				.append( $("<span></span>").text(label + " - "))
+				.append( $("<span></span>").text(description))
 		}
 
+		show() {
+			this.elem.addClass("visible")
+		}
+
+		hide() {
+			this.elem.removeClass("visible")
+		}
+
+		setActive( isActive ) {
+			if (isActive) 
+				this.elem.addClass( "active" )
+			else 
+				this.elem.removeClass( "active" )
+		}
 	}
 
-
-	var optionsDict = [
-		{"label" : "file complaint", "description" : "help", "link" : "#" },
-		{"label" : "poop pants", "description" : "oh no", "link" : "#"},
-		{"label" : "dont poop", "description" : "oh yess", "link" : "#"}
+	var options = [
+		new HelpOption("file complaint", "help", "#"),
+		new HelpOption("poop pants", "oh no", "#"),
+		new HelpOption("dont poop", "oh yess", "#")
 	]
 
-	var filterList = [];
-
-	// Include jQuery
-	var head = document.getElementsByTagName('head').item(0);
-	var jquerySrcTag = document.createElement('script');
-	jquerySrcTag.setAttribute('type', 'text/javascript');
-	jquerySrcTag.setAttribute('src', 'https://code.jquery.com/jquery-latest.min.js');
-	head.appendChild(jquerySrcTag);
 
 	// create outer container
-	var div = document.createElement('div');
-	div.setAttribute('class', 'dropdown-content');
-	div.style.width = "25%";
-	// div.style.background = "white";
-	div.style.position = 'fixed';
-	div.style.top = 0;
-	div.style.right = 0;
-	div.style.zIndex = 1000;
-
-	// Make it easy to add CSS rules to the page
-	function addStyleString(str) {
-		var node = document.createElement('style');
-		node.innerHTML = str;
-		document.body.appendChild(node);
-	}
-
-	// Make search bar expand when clicked
-	var styleNode = document.createElement('style');
-	addStyleString('input[type=text] {width: 40%; transition: ease-in-out, width .35s ease-in-out;}');
-	addStyleString('input[type=text]:focus {width: 85%;}');
-	
-
-	// Change background color of links when hovered
-	addStyleString('.dropdown-content {background-color: #f1f1f1;}');
-	addStyleString('.dropdown-content a {padding: 12px 16px; display: block;}');
-	addStyleString('.dropdown-content a:hover {background-color: #ddd;}');
+	var div = $("<div class='amzn-ext-list'></div>")
 
 	// create input html tag functionality
-	var input = document.createElement('input'); // create html tag for input field
-	input.setAttribute('id', 'help-ext-input');
-	input.setAttribute('placeholder', 'Help');
-	input.setAttribute('type', 'text');
-	input.style.focus = "100%";
-	input.addEventListener('keyup', filterFunction);
-	input.addEventListener('keydown', arrowKeyFunction);
+	var input = $("<input class='help-ext-input' placeholder='help' type='text'/>")
+		.keyup(filterFunction)
+		.keydown(arrowKeyFunction)
 
 	// Create list to hold all of the options
-	var ul = document.createElement('ul');
-	ul.setAttribute('id','help-ext-ul');
-	
+	var ul = $("<ul class='help-ext-ul'</ul>")
 
 	// Insert elements to the div container, and inject the div on the page.
-	div.appendChild(input);
-	div.appendChild(ul);
-	document.body.appendChild(div);
+	div.append(input)
+	div.append(ul)
 
-	init();
+	// INIT LIST
+	for(let option of options) {
+		ul.append(option.elem)
+	}
 
+	$(document.body).append(div)
 
+	function filterFunction() {			
+			var inputString = input.val().toUpperCase();
 
-//	$(document).ready(function() {
-//		$('input'.keyup(function(e) {
-//			if(e.which == 39) {
-//				console.log('right arrow');
-//			}
-//		}));
-//	});
-
-	function filterFunction() {
-			var filter, ul, li, a, i, input;
-			
-			input = document.getElementById('help-ext-input');
-
-			inputString = input.value.toUpperCase();
-			ul = document.getElementById('help-ext-ul');
-			li = ul.getElementsByTagName("li");
-			
-
-			for (i = 0; i < li.length; i++) {
-					a = li[i].getElementsByTagName("a")[0];
-
-					// if any part of the inner body matches the query
-					if (a.innerHTML.toUpperCase().indexOf(inputString) > -1) {
-							li[i].style.display = "";
-							filterList.push(li[i]);
-					} else {
-							li[i].style.display = "none";
-							var idx = filterList.indexOf(li[i]);
-							filterList.splice(idx, 1);
-					}
+			for (let option of options) {
+				if (option.label.toUpperCase().indexOf(inputString.toUpperCase()) > -1)
+					option.show()
+				else
+					option.hide()
 			}
 
-
-
-			ul.style.display = (inputString.length === 0) ? "none" : "";
-			filterList = (inputString.length === 0) ? [] : filterList; // empty the list if no query 
+			if (inputString.length === 0) 
+				ul.removeClass("visible")
+			else
+				ul.addClass("visible")
 	}
 
 	let idx = -1;
 	function arrowKeyFunction(e) {
 		e = e || window.event;
 		
-		let ul, li;
-		ul = document.getElementById('help-ext-ul');
-		li = ul.getElementsByTagName('li');
+		e.stopPropagation();
 
 		// Keyvalues: Up=38, Down=40, Right=39, Left=37
 		switch(e.keyCode) {
@@ -133,27 +90,14 @@
 				break;
 			case 40:
 			case 39:
-				idx = (idx === li.length) ? idx :  idx + 1; // move down if right or down arrow key
+				idx = (idx === options.length) ? idx :  idx + 1; // move down if right or down arrow key
 				break;
 			default:
 				return;
 		}
 
-		console.log(idx);
-
-	}
-
-
-
-	function init() {
-		
-		// Inject HTML for the list of options
-		for (var i = 0; i < optionsDict.length; i++) {
-			ul.innerHTML += "<li style='display:none'><a href=" + optionsDict[i].link
-								 + "><span style='color:red'>"
-								 + optionsDict[i].label
-								 + "</span> - " + optionsDict[i].description +"</a></li>";
+		for (let i = 0; i < options.length; i++) {
+			options[i].setActive( i === idx );
 		}
 	}
-
 })();
