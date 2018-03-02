@@ -47,3 +47,12 @@
 	color: red !important;
 	/*text-decoration: underline !important;*/
 }
+
+label[for="amzn-ext-search"] {
+	display: inline;
+	font-family: 'Allan';
+	font-size: 22px;
+	margin-left: 15%;
+	color: #cc0000;
+}
+

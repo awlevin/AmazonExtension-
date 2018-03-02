@@ -30,6 +30,21 @@
 		}
 	}
 
+	class HelpLabel {
+		constructor(text) {
+			this.elem = $("<label for='amzn-ext-search'>" + text + "</label>")
+		}
+		
+		show() {	
+			this.elem.css("display", "inline")
+		}
+
+		hide() {
+			this.elem.css("display", "none")
+		}
+
+	}
+
 	var options = [
 		new HelpOption("File Complaint", "https://www.amazon.com/gp/help/customer/display.html?nodeId=200783750"),
 		new HelpOption("Return Center", "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.amazon.com%2Fgp%2Forc%2Freturns%2Fhomepage.html%2Fref%3Dorc_surl_ret_hp%3Ffg%3D1&h=ATMZwdSWx4USHEDPJUjVxExBcUmzMvFJskfNW1g6Vk9LXlQyUJywT5XYJQDsQFQwTqbqnynLRHRhV2YjFCE4t_H9DT6FLbgqy-k2cvpLCggFkPVzStB9kRFD"),
@@ -49,17 +64,24 @@
 	// Create list to hold all of the options
 	var ul = $("<ul class='help-ext-ul'</ul>")
 
+	var label = new HelpLabel("Amazon Nav Extension!");
+
 	// create input html tag functionality
-	var input = $("<input class='amzn-ext-search' placeholder='Need Help?' type='text'/>")
+	var input = $("<input id='amzn-ext-search' class='amzn-ext-search' placeholder='Need Help?' type='text'/>")
 		.keyup(filterFunction)
 		.keydown(arrowKeyFunction)
-		//.focusout( () => { ul.removeClass("visible")  })
-		.focusin( () => { if (input.val().trim().length > 0) ul.addClass("visible") })
+		.focusout( () => { label.show()  })
+		.focusin( () => { 
+			if (input.val().trim().length > 0) ul.addClass("visible") 
+			label.hide()
+		})
+
 
 
 	// Insert elements to the div container, and inject the div on the page.
 	div.append(input)
 	div.append(ul)
+	div.append(label.elem)
 
 	// INIT LIST
 	for(let option of options) {
@@ -80,8 +102,6 @@
 	function filterFunction(e) {			
 			var inputString = input.val().toUpperCase();
 
-			// if ( !(oldString === inputString)) idx = -1;
-
 			for (let option of options) {
 				if (option.label.toUpperCase().trim().indexOf(inputString.toUpperCase().trim()) > -1) {
 					if (!optsShown.includes(option)) optsShown.push(option);
@@ -97,9 +117,6 @@
 				ul.removeClass("visible")
 			else 
 				ul.addClass("visible")
-
-			// oldString = inputString;
-			console.log("opts length: " + optsShown.length)
 	}
 
 	function arrowKeyFunction(e) {
@@ -123,6 +140,5 @@
 		for (let i = 0; i < optsShown.length; i++) {
 			optsShown[i].setActive( i === idx );
 		}
-			console.log("idx: " + idx)
 	}
 })();
